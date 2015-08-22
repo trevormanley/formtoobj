@@ -52,6 +52,7 @@ var formToObject = formToObject || {
                     baseObj[child.name] = child.value;
                 }
             }
+            baseObj = this.parseForm(child, baseObj);
         }
         return baseObj;
     }
