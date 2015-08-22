@@ -32,7 +32,7 @@ var formToObject = formToObject || {
         children = element.children;
         for (cn = 0; cn < children.length; cn += 1) {
             child = children[cn];
-            if (child.name !== undefined) {
+            if (child.name !== undefined && child.name !== "") {
                 if (child.tagName === "INPUT") {
                     if (child.type === "checkbox") {
                         if (child.checked) {
