@@ -28,28 +28,34 @@ var formToObject = formToObject || {
     parseForm : function (element, baseObj) {
         'use strict';
         baseObj = baseObj || {};
-        var children, cn = 0, child;
+        var children, cn = 0, child, propName;
         children = element.children;
         for (cn = 0; cn < children.length; cn += 1) {
             child = children[cn];
             if (child.name !== undefined && child.name !== "") {
+                propName = child.name;
+                if (propName.indexOf("-") !== -1) {
+                    propName = propName.replace(/-(.)/g, function (match, group) {
+                        return group.toUpperCase();
+                    });
+                }
                 if (child.tagName === "INPUT") {
                     if (child.type === "checkbox") {
                         if (child.checked) {
                             if (!baseObj.hasOwnProperty(child.name)) {
-                                baseObj[child.name] = [];
+                                baseObj[propName] = [];
                             }
-                            baseObj[child.name].push(child.value);
+                            baseObj[propName].push(child.value);
                         }
                     } else if (child.type === "radio") {
                         if (child.checked) {
-                            baseObj[child.name] = child.value;
+                            baseObj[propName] = child.value;
                         }
                     } else {
-                        baseObj[child.name] = child.value;
+                        baseObj[propName] = child.value;
                     }
                 } else {
-                    baseObj[child.name] = child.value;
+                    baseObj[propName] = child.value;
                 }
             }
             baseObj = this.parseForm(child, baseObj);
